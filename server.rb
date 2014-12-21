@@ -25,12 +25,13 @@ post '/info/:user' do
   @user = user_exists?(params[:user], data[:firebase])
 end
 
-post '/award-points/' do
+post '/award-points' do
   q = request["text"]
   points = q.gsub(/[^0-9]/, '')
   user = /(@[a-zA-Z]*)/.match(q).to_s.gsub(/[@]/,'')
   res = award_points(user,points,data[:firebase],data[:slack])
   return {username: USERNAME, text: res}
+  erb :index
 end
 
 # post '/remove-points/:user' do
@@ -40,6 +41,6 @@ end
 #   return {username: USERNAME, text: res}
 # end
 
-post '/leader' do
+get '/leader' do
   @user = get_leader(data[:firebase],data[:slack])
 end
