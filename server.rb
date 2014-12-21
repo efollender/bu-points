@@ -26,10 +26,12 @@ end
 post '/award-points' do
   request = params
   q = request["text"]
+  puts q
   points = q.gsub(/[^0-9]/, '')
   user = /(@[a-zA-Z]*)/.match(q).to_s.gsub(/[@]/,'')
   res = award_points(user,points,data[:firebase],data[:slack])
   return res
+  erb :index
 end
 
 get '/award-points' do
@@ -41,6 +43,7 @@ get '/award-points' do
   points = q.gsub(/[^0-9]/, '')
   user = /(@[a-zA-Z]*)/.match(q)[0].to_s.gsub(/[@]/,'')
   res = award_points(user,points,data[:firebase],data[:slack])
+  erb :index
 end
 
 # post '/remove-points/:user' do
