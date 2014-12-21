@@ -29,7 +29,7 @@ post '/award-points' do
   points = q.gsub(/[^0-9]/, '')
   user = /(@[a-zA-Z]*)/.match(q).to_s.gsub(/[@]/,'')
   res = award_points(user,points,data[:firebase],data[:slack])
-  return {:username => USERNAME, :text => res}.to_json
+  return res
 end
 
 get '/award-points' do
