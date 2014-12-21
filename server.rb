@@ -16,9 +16,7 @@ USERNAME = 'Dumbledore'
 
 get '/' do
   #response = loadUsers(data[:firebase],data[:slack])
-  response = "say hi"
-  @user = response
-  erb :index
+  @content = 'hey there.'
 end
 
 post '/info/:user' do
@@ -26,12 +24,24 @@ post '/info/:user' do
 end
 
 post '/award-points' do
+  @content = request
   q = request["text"]
   points = q.gsub(/[^0-9]/, '')
   user = /(@[a-zA-Z]*)/.match(q).to_s.gsub(/[@]/,'')
   res = award_points(user,points,data[:firebase],data[:slack])
   return {username: USERNAME, text: res}
-  erb :index
+end
+
+get '/award-points' do
+  request = {
+    "text" => '+10 points to @efollender',
+  }
+  @content = request
+  q = request["text"]
+  points = q.gsub(/[^0-9]/, '')
+  user = /(@[a-zA-Z]*)/.match(q).to_s.gsub(/[@]/,'')
+  res = award_points(user,points,data[:firebase],data[:slack])
+  return {username: USERNAME, text: res}
 end
 
 # post '/remove-points/:user' do
