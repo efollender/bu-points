@@ -39,7 +39,7 @@ get '/award-points' do
   @content = request
   q = request["text"]
   points = q.gsub(/[^0-9]/, '')
-  user = /(@[a-zA-Z]*)/.match(q).to_s.gsub(/[@]/,'')
+  user = /(@[a-zA-Z]*)/.match(q)[0].to_s.gsub(/[@]/,'')
   res = award_points(user,points,data[:firebase],data[:slack])
   return {username: USERNAME, text: res}
 end
