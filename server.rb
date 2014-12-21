@@ -24,7 +24,7 @@ post '/info/:user' do
 end
 
 post '/award-points' do
-  @content = request
+  request = params
   q = request["text"]
   points = q.gsub(/[^0-9]/, '')
   user = /(@[a-zA-Z]*)/.match(q).to_s.gsub(/[@]/,'')
