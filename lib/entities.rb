@@ -56,7 +56,7 @@ def award_points(user, points, firedata, slack)
   response = {
     :text => response
   }
-  return response
+  #return response
 end
 
 def subtract_points(user, caller, points, firedata, slack)
