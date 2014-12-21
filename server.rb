@@ -17,7 +17,7 @@ USERNAME = 'Dumbledore'
 get '/' do
   #response = loadUsers(data[:firebase],data[:slack])
   response = "say hi"
-  @response = response
+  @user = response
   erb :index
 end
 
