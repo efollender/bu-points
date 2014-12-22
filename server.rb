@@ -26,11 +26,12 @@ end
 
 post '/award-points' do
   #return 401 unless request["token"] == SLACK_TOKEN
-  q = request["text"]
-  puts q
-  points = /(^[0-9]*)/.match(q)[0].to_i
-  user = /(@[\w]*)/.match(q)[0].to_s.gsub(/[@]/,'')
-  res = award_points(user,points,data[:firebase])
+  # q = request["text"]
+  puts request
+  puts params
+  # points = /(^[0-9]*)/.match(q)[0].to_i
+  # user = /(@[\w]*)/.match(q)[0].to_s.gsub(/[@]/,'')
+  # res = award_points(user,points,data[:firebase])
   #return res
 end
 
