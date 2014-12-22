@@ -25,7 +25,7 @@ post '/info/:user' do
 end
 
 post '/award-points' do
-  puts request
+  #puts request
   puts request.body
   puts request[:text]
   # q = request.body
