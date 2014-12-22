@@ -56,7 +56,7 @@ def award_points(user, points, firedata, slack)
   res = {
     :text => response
   }
-  return res.to_json
+  return JSON.generate(res)
 end
 
 def subtract_points(user, caller, points, firedata, slack)
