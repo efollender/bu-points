@@ -27,7 +27,7 @@ end
 post '/award-points' do
   puts request
   puts request.body
-  puts request.query_string
+  puts request[:text]
   # q = request.body
   # points = /(^[0-9]*)/.match(q)[0].to_i
   # user = /(@[\w]*)/.match(q)[0].to_s.gsub(/[@]/,'')
