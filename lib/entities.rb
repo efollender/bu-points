@@ -35,9 +35,10 @@ def user_exists?(user, firedata)
   end
   response = firebase.get('',{})
   response.body.each do |k,v|
-    if v.first["id"] == user
-      return v
-    end
+    # if v.first["id"] == user
+    #   return v
+    # end
+    puts v
   end
   return false
 end
