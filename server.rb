@@ -3,15 +3,10 @@ require_relative 'lib/entities.rb'
 
 set :bind, '0.0.0.0'
 
-data = {
-  :firebase => {
+firebase = {
     :users_uri => 'https://bu.firebaseio.com/users',
     :base_uri => 'https://bu.firebaseio.com/'
-  },
-  :slack => {
-    :base_uri => 'https://slack.com/api/'
   }
-}
 USERNAME = 'Dumbledore'
 SLACK_TOKEN = 'p5ZCFDOKp8qGmtd3mrJKMQpM'
 
@@ -21,7 +16,7 @@ get '/' do
 end
 
 post '/info/:user' do
-  @user = user_exists?(params[:user], data[:firebase])
+  @user = user_exists?(params[:user], firebase)
 end
 
 post '/award-points' do
@@ -43,7 +38,7 @@ get '/award-points' do
   q = request["text"]
   points = q.gsub(/[^0-9]/, '')
   user = /(@[\w]*)/.match(q).to_s.gsub(/[@]/,'')
-  res = award_points(user,points,data[:firebase],data[:slack])
+  res = award_points(user,points,firebase)
   erb :index
 end
 
@@ -55,6 +50,6 @@ end
 # end
 
 get '/leader' do
-  @content = get_leader(data[:firebase],data[:slack])
+  @content = get_leader(firebase)
   erb :index
 end
