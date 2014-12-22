@@ -27,7 +27,7 @@ post '/award-points' do
   request = params
   q = request["text"]
   puts q
-  points = q.gsub(/[^0-9]/, '')
+  points = /(^[0-9]*)/.match(q)[0].to_i
   user = /(@[\w]*)/.match(q)[0].to_s.gsub(/[@]/,'')
   #res = award_points(user,points,data[:firebase],data[:slack])
   res = user_exists?(user, data[:firebase]) 
