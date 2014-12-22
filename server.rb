@@ -24,7 +24,7 @@ post '/info/:user' do
 end
 
 post '/award-points' do
-  log_call(request, params)
+  log_call(params)
   request = params
   q = request["text"]
   puts q
