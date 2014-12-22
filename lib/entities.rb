@@ -46,7 +46,7 @@ def award_points(user, points, firedata)
   firebase = Firebase::Client.new(firedata[:users_uri])
   user_base = user_exists?(user, firedata)
   points = points.to_i
-  if user_base
+  if user_base["points"]
     points += user_base["points"]
     firebase.update(user_base["name"], {:points => points})
   else

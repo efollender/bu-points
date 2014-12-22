@@ -24,7 +24,6 @@ post '/info/:user' do
 end
 
 post '/award-points' do
-  request = params
   q = request["text"]
   puts q
   points = /(^[0-9]*)/.match(q)[0].to_i
