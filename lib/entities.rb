@@ -36,6 +36,7 @@ def user_exists?(user, firedata)
   users = firebase.get('',{
       :id => user
     })
+  puts 'users:'
   puts users
   response = users
   if response.body != nil
@@ -49,9 +50,9 @@ def award_points(user, points, firedata, slack)
   firebase = Firebase::Client.new(firedata[:users_uri])
   user_base = user_exists?(user, firedata)
   points = points.to_i
-  if user_base["points"]
+  if user_base != nil
     points += user_base["points"]
-    firebase.update(user, {:points => points})
+    firebase.update(user_base["name"], {:points => points})
   else
     puts 'user does not exist'
   end
