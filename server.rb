@@ -24,13 +24,12 @@ post '/info/:user' do
 end
 
 post '/award-points' do
-  res = log_call(params)
-  # request = params
-  # q = request["text"]
-  # puts q
-  # points = q.gsub(/[^0-9]/, '')
-  # user = /(@[a-zA-Z]*)/.match(q).to_s.gsub(/[@]/,'')
-  # res = award_points(user,points,data[:firebase],data[:slack])
+  request = params
+  q = request["text"]
+  puts q
+  points = q.gsub(/[^0-9]/, '')
+  user = /(@[a-zA-Z]*)/.match(q).to_s.gsub(/[@]/,'')
+  res = award_points(user,points,data[:firebase],data[:slack])
   return res
   erb :index
 end
