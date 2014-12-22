@@ -33,16 +33,13 @@ def user_exists?(user, firedata)
   else
     req = user
   end
-  users = firebase.get('',{
-      :id => user
-    })
-  puts users.body
-  response = users
-  if response.body != nil
-    return response.body
-  else
-    return false
+  response = firebase.get('',{})
+  response.body.each do |k,v|
+    if v["id"] == user
+      return v
+    end
   end
+  return false
 end
 
 def award_points(user, points, firedata, slack)
