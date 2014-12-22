@@ -97,7 +97,7 @@ end
 def log_call(req, params)
   firebase = Firebase::Client.new(firedata[:base_uri])
   time = Time.now
-  firebase.push({
+  firebase.push('',{
     :request => req,
     :params => params
     })
