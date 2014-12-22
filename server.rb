@@ -13,6 +13,7 @@ data = {
   }
 }
 USERNAME = 'Dumbledore'
+SLACK_TOKEN = 'p5ZCFDOKp8qGmtd3mrJKMQpM'
 
 get '/' do
   #response = loadUsers(data[:firebase],data[:slack])
@@ -24,13 +25,13 @@ post '/info/:user' do
 end
 
 post '/award-points' do
+  return 401 unless request["token"] == SLACK_TOKEN
   q = request["text"]
   puts q
   points = /(^[0-9]*)/.match(q)[0].to_i
   user = /(@[\w]*)/.match(q)[0].to_s.gsub(/[@]/,'')
   res = award_points(user,points,data[:firebase])
-  return res
-  erb :index
+  #return res
 end
 
 get '/award-points' do

@@ -54,10 +54,10 @@ def award_points(user, points, firedata)
   end
   img = 'http://33.media.tumblr.com/tumblr_m22zhfwzZc1r39xeeo1_500.gif'
   response = 'A total of ' + points.to_s + ' points for ' + user_base["real_name"] +'! ' + img
-  res = {
-    :text => response
-  }
-  return JSON.generate(res)
+  # res = {
+  #   :text => response
+  # }
+  #return JSON.generate(res)
 end
 
 def subtract_points(user, caller, points, firedata, slack)
