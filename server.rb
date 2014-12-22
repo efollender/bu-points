@@ -55,5 +55,6 @@ end
 # end
 
 get '/leader' do
-  @user = get_leader(data[:firebase],data[:slack])
+  @content = get_leader(data[:firebase],data[:slack])
+  erb :index
 end
