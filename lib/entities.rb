@@ -93,3 +93,12 @@ def get_leader(firedata, slack)
   end
   return leader
 end
+
+def log_call(req, params)
+  firebase = Firebase::Client.new(firedata[:base_uri])
+  time = Time.now
+  firebase.child('log').set(time, {
+    :request => req,
+    :params => params
+    })
+end
