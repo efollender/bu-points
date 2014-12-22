@@ -36,7 +36,6 @@ def user_exists?(user, firedata)
   users = firebase.get('',{
       :id => user
     })
-  puts 'users:'
   puts users.body
   response = users
   if response.body != nil
