@@ -25,7 +25,7 @@ post '/info/:user' do
 end
 
 post '/award-points' do
-  return 401 unless request["token"] == SLACK_TOKEN
+  #return 401 unless request["token"] == SLACK_TOKEN
   q = request["text"]
   puts q
   points = /(^[0-9]*)/.match(q)[0].to_i
