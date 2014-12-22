@@ -28,7 +28,7 @@ post '/award-points' do
   q = request["text"]
   puts q
   points = q.gsub(/[^0-9]/, '')
-  user = /(@[a-zA-Z]*)/.match(q).to_s.gsub(/[@]/,'')
+  user = /(@[\w]*)/.match(q).to_s.gsub(/[@]/,'')
   #res = award_points(user,points,data[:firebase],data[:slack])
   res = user_exists?(user, data[:firebase]) 
   return res
@@ -42,7 +42,7 @@ get '/award-points' do
   @content = request
   q = request["text"]
   points = q.gsub(/[^0-9]/, '')
-  user = /(@[a-zA-Z]*)/.match(q)[0].to_s.gsub(/[@]/,'')
+  user = /(@[\w]*)/.match(q).to_s.gsub(/[@]/,'')
   res = award_points(user,points,data[:firebase],data[:slack])
   erb :index
 end
