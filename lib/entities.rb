@@ -29,11 +29,15 @@ end
 def user_exists?(user, firedata)
   firebase = Firebase::Client.new(firedata[:users_uri])
   if user.is_a?(Hash)
-    req = user["name"]
+    req = user["id"]
   else
     req = user
   end
-  response = firebase.get(req)
+  users = firebase.get('',{
+      :id => user
+    })
+  puts users
+  response = users
   if response.body != nil
     return response.body
   else
