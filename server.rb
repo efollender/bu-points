@@ -34,6 +34,18 @@ get '/award-points' do
   #return res
 end
 
+post '/award-points' do
+  q = params[:text]
+  res = {:text => q }
+  return JSON.generate(res)
+
+  # points = /(^[0-9]*)/.match(q)[0].to_i
+  # user = /(@[\w]*)/.match(q)[0].to_s.gsub(/[@]/,'')
+  # puts points, user
+  #res = award_points(user,points,firebase)
+  #return res
+end
+
 # get '/award-points' do
 #   request = {
 #     "text" => '+10 points to @efollender',
