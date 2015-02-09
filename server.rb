@@ -24,8 +24,9 @@ end
 
 get '/award-points' do
   q = params[:text]
-  points = /(^[0-9]*)/.match(q).to_i
-  user = /(@[\w]*)/.match(q).to_s.gsub(/[@]/,'')
+  q = URI.unescape(q)
+  points = /(\d\S)/.match(q)[0]
+  user = /(@[\w]*)/.match(q)[0].to_s.gsub(/[@]/,'')
   puts points, user
   res = award_points(user,points,firebase)
   return res
@@ -67,3 +68,4 @@ get '/leader' do
   @content = get_leader(firebase)
   erb :index
 end
+

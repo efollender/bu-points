@@ -37,8 +37,11 @@ def user_exists?(user, firedata)
     req = user
   end
   response = firebase.get('',{})
-  if response.body.has_value?(req)
-    return response.body.key(req)
+  puts response.body
+  response.body.each do |k,v|
+    if v.has_value?(req)
+      return v
+    end
   end
   return false
 end
@@ -46,9 +49,10 @@ end
 def award_points(user, points, firedata)
   firebase = Firebase::Client.new(firedata[:users_uri])
   user_base = user_exists?(user, firedata)
+  puts user_base
   points = points.to_i
   if user_base["points"]
-    points += user_base["points"]
+    points += user_base["points"].to_i
     firebase.update(user_base["name"], {:points => points})
   else
     add_user(firebase, user)
@@ -56,10 +60,10 @@ def award_points(user, points, firedata)
   end
   img = 'http://33.media.tumblr.com/tumblr_m22zhfwzZc1r39xeeo1_500.gif'
   response = 'A total of ' + points.to_s + ' points for ' + user_base["real_name"] +'! ' + img
-  # res = {
-  #   :text => response
-  # }
-  #return JSON.generate(res)
+  res = {
+    :text => response
+  }
+  return JSON.generate(res)
 end
 
 def subtract_points(user, caller, points, firedata, slack)
@@ -96,3 +100,4 @@ def get_leader(firedata, slack)
   end
   return leader
 end
+
