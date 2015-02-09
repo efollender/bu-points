@@ -25,7 +25,7 @@ end
 get '/award-points' do
   q = env['rack.input'].gets
   puts q
-  puts q[:text]
+  puts q["text"]
   # points = /(^[0-9]*)/.match(q)[0].to_i
   # user = /(@[\w]*)/.match(q)[0].to_s.gsub(/[@]/,'')
   # puts points, user
