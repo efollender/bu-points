@@ -1,3 +1,4 @@
+require 'pry'
 require 'sinatra'
 require_relative 'lib/entities.rb'
 
@@ -8,21 +9,23 @@ firebase = {
     :base_uri => 'https://bu.firebaseio.com/'
   }
 USERNAME = 'Dumbledore'
-SLACK_TOKEN = 'p5ZCFDOKp8qGmtd3mrJKMQpM'
+SLACK_TOKEN = 'xoxp-2178724258-3223364896-3264573501-f0d2e1'
 
 get '/' do
   #response = loadUsers(data[:firebase],data[:slack])
   @content = 'hey there.'
 end
 
-post '/info/:user' do
-  @user = user_exists?(params[:user], firebase)
+get '/info/:user' do
+  @content = user_exists?(params[:user], firebase)
+  erb :index
 end
 
 post '/award-points' do
   #puts request
   puts request.body
   puts request[:text]
+  binding.pry
   # q = request.body
   # points = /(^[0-9]*)/.match(q)[0].to_i
   # user = /(@[\w]*)/.match(q)[0].to_s.gsub(/[@]/,'')
@@ -36,6 +39,7 @@ get '/award-points' do
   }
   @content = request
   q = request["text"]
+  puts q
   points = q.gsub(/[^0-9]/, '')
   user = /(@[\w]*)/.match(q).to_s.gsub(/[@]/,'')
   res = award_points(user,points,firebase)
@@ -53,3 +57,4 @@ get '/leader' do
   @content = get_leader(firebase)
   erb :index
 end
+

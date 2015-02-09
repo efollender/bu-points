@@ -6,22 +6,25 @@ def loadUsers(firedata, slackdata)
   json = call_slack('users.list',{},slackdata)
   firebase = Firebase::Client.new(firedata[:users_uri])
   json["members"].each do |x|
-    if !(user_exists?(x, firedata))
-      create = firebase.set(x["name"], { 
+    user_exists?(x, firedata)
+  end
+  return 'users loaded.'
+end
+
+def add_user(firebase, user)
+  x = user
+  create = firebase.set(x["name"], { 
         :name => x["name"], 
         :id => x["id"],
         :real_name => x["real_name"],
         :points => 0 
         })
       create.success? ? create.body : 'user exists'
-    end
-  end
-  return 'users loaded.'
 end
 
 def call_slack(req, params, slackdata)
   params_string = params.map { |k, v| "#{k}=#{[v].flatten.join('&')}" }.join('&')
-  response = HTTParty.get(slackdata[:base_uri] + req + '?' + params_string + 'token=' + slackdata[:token])
+  response = HTTParty.get('https://slack.com/api/' + req + '?' + params_string + 'token=' + slackdata)
   json = JSON.parse(response.body)
   return json
 end
@@ -34,10 +37,8 @@ def user_exists?(user, firedata)
     req = user
   end
   response = firebase.get('',{})
-  response.body.each do |k,v|
-    if v["id"] == user
-      return v
-    end
+  if response.body.has_value?(req)
+    return response.body.key(req)
   end
   return false
 end
@@ -50,7 +51,8 @@ def award_points(user, points, firedata)
     points += user_base["points"]
     firebase.update(user_base["name"], {:points => points})
   else
-    puts 'user does not exist'
+    add_user(firebase, user)
+    award_points(user, points, firedata)
   end
   img = 'http://33.media.tumblr.com/tumblr_m22zhfwzZc1r39xeeo1_500.gif'
   response = 'A total of ' + points.to_s + ' points for ' + user_base["real_name"] +'! ' + img
