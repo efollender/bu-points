@@ -24,7 +24,7 @@ end
 
 post '/award-points' do
   q = env['rack.input'].gets
-  puts q[:text]
+  puts JSON.parse q
   #puts JSON.parse(request.body)
   # q = request[:text]
   # points = /(^[0-9]*)/.match(q)[0].to_i
