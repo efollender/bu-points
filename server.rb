@@ -22,15 +22,13 @@ get '/info/:user' do
 end
 
 post '/award-points' do
-  #puts request
   puts request.body
   puts request[:text]
-  binding.pry
-  # q = request.body
-  # points = /(^[0-9]*)/.match(q)[0].to_i
-  # user = /(@[\w]*)/.match(q)[0].to_s.gsub(/[@]/,'')
-  # res = award_points(user,points,data[:firebase])
-  # return res
+  q = request[:text]
+  points = /(^[0-9]*)/.match(q)[0].to_i
+  user = /(@[\w]*)/.match(q)[0].to_s.gsub(/[@]/,'')
+  res = award_points(user,points,data[:firebase])
+  return res
 end
 
 get '/award-points' do
