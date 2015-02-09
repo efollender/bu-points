@@ -23,7 +23,8 @@ get '/info/:user' do
 end
 
 post '/award-points' do
-  puts JSON.parse request.body.read
+  q = env['rack.input'].gets
+  puts q[:text]
   #puts JSON.parse(request.body)
   # q = request[:text]
   # points = /(^[0-9]*)/.match(q)[0].to_i
