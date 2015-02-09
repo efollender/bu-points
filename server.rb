@@ -22,10 +22,9 @@ get '/info/:user' do
   erb :index
 end
 
-post '/award-points' do
+get '/award-points' do
   q = env['rack.input'].gets
-  q = URI::QueryParams.parse(q)
-  puts q
+  binding.pry
   # points = /(^[0-9]*)/.match(q)[0].to_i
   # user = /(@[\w]*)/.match(q)[0].to_s.gsub(/[@]/,'')
   # puts points, user
@@ -57,4 +56,3 @@ get '/leader' do
   @content = get_leader(firebase)
   erb :index
 end
-
