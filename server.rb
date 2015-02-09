@@ -1,5 +1,6 @@
 require 'pry'
 require 'sinatra'
+require 'json'
 require_relative 'lib/entities.rb'
 
 set :bind, '0.0.0.0'
@@ -23,7 +24,7 @@ end
 
 post '/award-points' do
   puts request.body
-  puts request.body[:text]
+  puts JSON.parse(request.body)
   # q = request[:text]
   # points = /(^[0-9]*)/.match(q)[0].to_i
   # user = /(@[\w]*)/.match(q)[0].to_s.gsub(/[@]/,'')
