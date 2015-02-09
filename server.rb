@@ -24,7 +24,8 @@ end
 
 get '/award-points' do
   q = params[:text]
-  puts q
+  res = {:text => q }
+  return JSON.generate(res)
 
   # points = /(^[0-9]*)/.match(q)[0].to_i
   # user = /(@[\w]*)/.match(q)[0].to_s.gsub(/[@]/,'')
