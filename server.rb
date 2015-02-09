@@ -32,18 +32,18 @@ post '/award-points' do
   #return res
 end
 
-get '/award-points' do
-  request = {
-    "text" => '+10 points to @efollender',
-  }
-  @content = request
-  q = request["text"]
-  puts q
-  points = q.gsub(/[^0-9]/, '')
-  user = /(@[\w]*)/.match(q).to_s.gsub(/[@]/,'')
-  res = award_points(user,points,firebase)
-  erb :index
-end
+# get '/award-points' do
+#   request = {
+#     "text" => '+10 points to @efollender',
+#   }
+#   @content = request
+#   q = request["text"]
+#   puts q
+#   points = q.gsub(/[^0-9]/, '')
+#   user = /(@[\w]*)/.match(q).to_s.gsub(/[@]/,'')
+#   res = award_points(user,points,firebase)
+#   erb :index
+# end
 
 # post '/remove-points/:user' do
 #   q = request["text"]
