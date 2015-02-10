@@ -59,7 +59,7 @@ def award_points(sender, user, points, firedata)
     add_user(firebase, user)
     award_points(user, points, firedata)
   end
-  img = 'http://33.media.tumblr.com/tumblr_m22zhfwzZc1r39xeeo1_500.gif'
+  img = 'http://bit.ly/1EVMrHL'
   part_one = sender["real_name"] + ' gave ' + points_given.to_s + ' points to ' + user_base["real_name"]
   response = part_one + '. A total of ' + points.to_s + ' points for ' + user_base["real_name"] +'! ' + img
   return response
