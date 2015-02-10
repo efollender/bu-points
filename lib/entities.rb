@@ -67,7 +67,7 @@ def award_points(user, points, firedata)
 end
 
 def slack_respond(response, channel)
-  options = { :text: response, :channel: channel, :username: "Points Bot"}
+  options = { :body => {:text => response[:text], :channel => channel, :username => "Points Bot"}}
   HTTParty.post('https://hooks.slack.com/services/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', options)
 end
 
