@@ -60,15 +60,11 @@ def award_points(user, points, firedata)
   end
   img = 'http://33.media.tumblr.com/tumblr_m22zhfwzZc1r39xeeo1_500.gif'
   response = 'A total of ' + points.to_s + ' points for ' + user_base["real_name"] +'! ' + img
-  res = {
-    :text => response
-  }
-  return res
+  return response
 end
 
 def slack_respond(response, channel)
   options = { :body => {:text => response, :channel => channel}}
-  options = JSON.generate(options)
   HTTParty.post('https://hooks.slack.com/services/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', options)
 end
 
