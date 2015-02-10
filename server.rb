@@ -29,7 +29,6 @@ get '/award-points' do
   user = /(@[\w]*)/.match(q)[0].to_s.gsub(/[@]/,'')
   puts points, user
   res = award_points(user,points,firebase)
-  return res
 end
 
 post '/award-points' do
