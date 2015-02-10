@@ -2,12 +2,6 @@ require 'firebase'
 require 'httparty'
 require 'json'
 
-class PartyUtilities
-  include HTTParty
-
-  format :json
-  headers 'Accept' => 'application/json'
-end  
 def loadUsers(firedata, slackdata)
   json = call_slack('users.list',{},slackdata)
   firebase = Firebase::Client.new(firedata[:users_uri])
@@ -52,10 +46,11 @@ def user_exists?(user, firedata)
   return false
 end
 
-def award_points(user, points, firedata)
+def award_points(sender, user, points, firedata)
   firebase = Firebase::Client.new(firedata[:users_uri])
   user_base = user_exists?(user, firedata)
-  puts user_base
+  sender = user_exists?(sender, firedata)
+  points_given = points
   points = points.to_i
   if user_base["points"]
     points += user_base["points"].to_i
@@ -65,7 +60,8 @@ def award_points(user, points, firedata)
     award_points(user, points, firedata)
   end
   img = 'http://33.media.tumblr.com/tumblr_m22zhfwzZc1r39xeeo1_500.gif'
-  response = 'A total of ' + points.to_s + ' points for ' + user_base["real_name"] +'! ' + img
+  part_one = sender["real_name"] + ' gave ' + points_given.to_s + ' points to ' + user_base["real_name"]
+  response = part_one + '. A total of ' + points.to_s + ' points for ' + user_base["real_name"] +'! ' + img
   return response
 end
 
@@ -73,7 +69,7 @@ def subtract_points(user, caller, points, firedata, slack)
   firebase = Firebase::Client.new(firedata[:users_uri])
   admin = user_exists?(caller, firedata)
   user_base = user_exists?(user, firedata)
-  points = points.to_i
+  points = points_given
   if user_base && admin["name"] == 'efollender'
     user_base["points"] -= points
     firebase.update(user, {:points => user_base["points"]})
@@ -115,3 +111,4 @@ def slack_respond(response, channel)
   res = HTTParty.post(hook, :body => request.to_json, :headers => {'Content-Type' => 'application/json', 'charset' => 'utf-8'})
   puts res
 end
+
