@@ -30,7 +30,7 @@ get '/award-points' do
   user = /(@[\w]*)/.match(q)[0].to_s.gsub(/[@]/,'')
   puts points, user
   res = award_points(user,points,firebase)
-  slack_respond(res, channel)
+  Webhooks::slack_respond(res, channel)
 end
 
 post '/award-points' do

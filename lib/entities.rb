@@ -1,6 +1,5 @@
 require 'firebase'
 require 'httparty'
-require 'net/http'
 require 'json'
 
 def loadUsers(firedata, slackdata)
@@ -64,13 +63,6 @@ def award_points(user, points, firedata)
   return response
 end
 
-def slack_respond(response, channel)
-  uri = URI.parse("https://hooks.slack.com/services/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")
-  http = Net::HTTP.new(uri.host, uri.port)
-  request.body = {'text' => response, 'channel' => channel}
-  response = http.request(request)
-end
-
 def subtract_points(user, caller, points, firedata, slack)
   firebase = Firebase::Client.new(firedata[:users_uri])
   admin = user_exists?(caller, firedata)
@@ -106,3 +98,19 @@ def get_leader(firedata, slack)
   return leader
 end
 
+class Webhooks
+  include HTTParty
+  
+  format :json
+  headers 'Accept' => 'application/json'
+
+  def slack_respond(response, channel)
+    hook = "https://hooks.slack.com/services/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"
+    request = { 'body' =>{
+        'text' => response, 
+        'channel' => channel
+      }
+    }
+    HTTParty.post(hook, request)
+  end
+end
