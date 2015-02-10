@@ -1,5 +1,6 @@
 require 'firebase'
 require 'httparty'
+require 'net/http'
 require 'json'
 
 def loadUsers(firedata, slackdata)
@@ -64,8 +65,10 @@ def award_points(user, points, firedata)
 end
 
 def slack_respond(response, channel)
-  options = { :body => {:text => response, :channel => channel}}
-  HTTParty.post('https://hooks.slack.com/services/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', options)
+  uri = URI.parse("https://hooks.slack.com/services/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")
+  http = Net::HTTP.new(uri.host, uri.port)
+  request.body = {'text' => response, 'channel' => channel}
+  response = http.request(request)
 end
 
 def subtract_points(user, caller, points, firedata, slack)
