@@ -26,6 +26,10 @@ get '/award-points' do
   q = params[:text]
   channel = URI.unescape(params[:channel_id])
   q = URI.unescape(q)
+  if q = 'leader'
+    res = get_leader(firebase)
+    return slack_respond(res, channel)
+  end
   points = /^[\d\S]*/.match(q)[0].slice(1..-1).to_i
   user = /(@[\w]*)/.match(q)[0].to_s.gsub(/[@]/,'')
   puts channel
@@ -53,8 +57,4 @@ end
 #   return {username: USERNAME, text: res}
 # end
 
-get '/leader' do
-  @content = get_leader(firebase)
-  erb :index
-end
 

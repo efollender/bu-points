@@ -92,7 +92,7 @@ def get_points(user, firedata, slack)
   end
 end
 
-def get_leader(firedata, slack)
+def get_leader(firedata)
   firebase = Firebase::Client.new(firedata[:base_uri])
   users = firebase.get('users')
   leader = {'points' => 0}
@@ -101,7 +101,7 @@ def get_leader(firedata, slack)
       leader = v
     end
   end
-  return leader
+  return 'The current leader is ' + leader['real_name'] + '!'
 end
 
 def slack_respond(response, channel)
