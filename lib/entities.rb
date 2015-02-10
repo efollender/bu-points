@@ -66,6 +66,11 @@ def award_points(user, points, firedata)
   return JSON.generate(res)
 end
 
+def slack_respond(response, channel)
+  options = { :text: response, :channel: channel, :username: "Points Bot"}
+  HTTParty.post('https://hooks.slack.com/services/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', options)
+end
+
 def subtract_points(user, caller, points, firedata, slack)
   firebase = Firebase::Client.new(firedata[:users_uri])
   admin = user_exists?(caller, firedata)

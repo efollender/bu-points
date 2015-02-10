@@ -24,12 +24,13 @@ end
 
 get '/award-points' do
   q = params[:text]
+  channel = params[:channel_name]
   q = URI.unescape(q)
   points = /(\d\S)/.match(q)[0]
   user = /(@[\w]*)/.match(q)[0].to_s.gsub(/[@]/,'')
   puts points, user
   res = award_points(user,points,firebase)
-  return res
+  slack_respond(res, channel)
 end
 
 post '/award-points' do
