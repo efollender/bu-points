@@ -2,6 +2,12 @@ require 'firebase'
 require 'httparty'
 require 'json'
 
+class PartyUtilities
+  include HTTParty
+
+  format :json
+  headers 'Accept' => 'application/json'
+end  
 def loadUsers(firedata, slackdata)
   json = call_slack('users.list',{},slackdata)
   firebase = Firebase::Client.new(firedata[:users_uri])
@@ -98,19 +104,14 @@ def get_leader(firedata, slack)
   return leader
 end
 
-class Webhooks
-  include HTTParty
-  
-  format :json
-  headers 'Accept' => 'application/json'
-
-  def slack_respond(response, channel)
-    hook = "https://hooks.slack.com/services/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"
-    request = { 'body' =>{
-        'text' => response, 
-        'channel' => channel
-      }
-    }
-    HTTParty.post(hook, request)
-  end
+def slack_respond(response, channel)
+  hook = "https://hooks.slack.com/services/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"
+  request = {
+      :text => response, 
+      :channel => channel,
+      :icon_emoji => ':wizard:',
+      :username => 'Dumbledore'
+  }
+  res = HTTParty.post(hook, :body => request.to_json, :headers => {'Content-Type' => 'application/json', 'charset' => 'utf-8'})
+  puts res
 end

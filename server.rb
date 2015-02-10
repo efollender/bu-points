@@ -13,7 +13,7 @@ USERNAME = 'Dumbledore'
 SLACK_TOKEN = 'xoxp-2178724258-3223364896-3264573501-f0d2e1'
 
 get '/' do
-  #response = loadUsers(data[:firebase],data[:slack])
+  response = loadUsers(firebase,SLACK_TOKEN)
   @content = 'hey there.'
 end
 
@@ -24,25 +24,13 @@ end
 
 get '/award-points' do
   q = params[:text]
-  channel = params[:channel_name]
+  channel = URI.unescape(params[:channel_id])
   q = URI.unescape(q)
-  points = /(\d\S)/.match(q)[0]
+  points = /^[\d\S]*/.match(q)[0].slice(1..-1).to_i
   user = /(@[\w]*)/.match(q)[0].to_s.gsub(/[@]/,'')
-  puts points, user
+  puts channel
   res = award_points(user,points,firebase)
-  Webhooks::slack_respond(res, channel)
-end
-
-post '/award-points' do
-  q = params[:text]
-  res = {:text => q }
-  return JSON.generate(res)
-
-  # points = /(^[0-9]*)/.match(q)[0].to_i
-  # user = /(@[\w]*)/.match(q)[0].to_s.gsub(/[@]/,'')
-  # puts points, user
-  #res = award_points(user,points,firebase)
-  #return res
+  slack_respond(res, channel)
 end
 
 # get '/award-points' do
