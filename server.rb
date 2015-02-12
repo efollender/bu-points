@@ -27,7 +27,7 @@ get '/award-points' do
   channel = URI.unescape(params[:channel_id])
   sender = URI.unescape(params[:user_name])
   q = URI.unescape(q)
-  points = /^[\d\S]*/.match(q)[0].slice(1..-1).to_i
+  points = /^[\d\S]*/.match(q)[0].slice(1..-1).gsub(/,(?=\d{3}\b)/, '').to_i
   user = /(@[\w]*)/.match(q)[0].to_s.gsub(/[@]/,'')
   puts channel
   res = award_points(sender, user,points,firebase)
